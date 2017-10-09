@@ -7,7 +7,7 @@ let logConf = {
       "category": "console"
     },
     {  //在./logs/data_log目录生成 http.log文件
-      "type": isProd ? "datefile" : "console", //datefile表示是输出按时间分文件的日志
+      "type": isProd ? "dateFile" : "console", //dateFile表示是输出按时间分文件的日志
       "filename": "logs/data_log/http.log",  //文件件名
       "pattern": "_yyyy-MM-dd.log",
       "alwaysIncludePattern": true,
