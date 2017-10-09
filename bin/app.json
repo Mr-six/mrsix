@@ -5,8 +5,8 @@
           "max_memory_restart": "300M",
           "script":             "index.js",
           "log_date_format":    "YYYY-MM-DD HH:mm Z",
-          "out_file":           "log/pm2out.log",
-          "error_file":         "log/pm2error.log",
+          "out_file":           "logs/pm2out.log",
+          "error_file":         "logs/pm2error.log",
           "instances":          1,
           "exec_mode":          "fork",
           "env":                {
