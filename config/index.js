@@ -11,8 +11,8 @@ module.exports = {
   proxyUrl,                                 // 代理 url
   secret: 'yqqlmgsycl',                     // jwt secret
   tokenExpires: '7d',                       // token 有效时间 7天
-  port: isProd ? '3000' : '3000',           // 端口
-  db: 'mongodb://127.0.0.1:27017/koams',    // 数据库
+  port: isProd ? '8006' : '3000',           // 端口
+  db: 'mongodb://127.0.0.1:27017/mrsix',    // 数据库
   dbtest: 'mongodb://127.0.0.1:27017/test', // 测试数据库
   limitDb: 20,                                // 默认每页数据
   schema,                                   // 对象验证规则
