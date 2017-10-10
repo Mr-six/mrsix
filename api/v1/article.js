@@ -1,6 +1,6 @@
-const {articleModel} = require('../../models').v1
-const $         = require('../../utils')
-const Base      = require('./base')
+const {articleModel}     = require('../../models').v1
+const $                  = require('../../utils')
+const Base               = require('./base')
 const {schema, limitDb}  = require('../../config')
 
 let ArticleAPI = new Base({

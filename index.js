@@ -7,7 +7,8 @@ const cors       = require('koa-cors')
 const static     = require('koa-static')
 const routers    = require('./routers')
 const path       = require('path')
-const onerror = require('koa-onerror')
+const onerror    = require('koa-onerror')
+const {proxy}      = require('koa-nginx')
 /**
  * app instance
  */
@@ -24,6 +25,7 @@ const config     = require('./config')
 const { logHttp } = require('./utils')
 
 require('./models').connect()
+
 
 /**
  * middleware
@@ -43,6 +45,11 @@ app.use(cors())
  * routers
  */
 app.use(routers.routes())
+
+/**
+ * proxy urls
+ */
+app.use(proxy(config.proxyUrl))
 
 /**
  * run and listen

@@ -8,10 +8,10 @@ const dbname = config.isProd ? config.db : config.dbtest
 
 module.exports =  {
   connect:  () => {
-    mongoose.Promise = global.Promise
     mongoose.connect(dbname, {
       useMongoClient: true,
-      server: { poolSize: 20 }
+      poolSize: 2,
+      promiseLibrary : global.Promise
     }, (err) => {
       console.log(dbname)
       $.info(dbname + ' success connect')

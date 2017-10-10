@@ -2,11 +2,13 @@ const isProd   =  process.env.NODE_ENV === 'production'
 const path     = require('path')
 const oss      = require('./oss.config')    // oss 配置
 const schema   = require('./schema')        // 验证规则
+const proxyUrl = require('./proxyUrl')      // 代理 url
 const static   = path.join( __dirname,'../static')
 
 module.exports = {
   isProd,                                   // 判断当前环境
   static,                                   // 静态目录
+  proxyUrl,                                 // 代理 url
   secret: 'yqqlmgsycl',                     // jwt secret
   tokenExpires: '7d',                       // token 有效时间 7天
   port: isProd ? '3000' : '3000',           // 端口
