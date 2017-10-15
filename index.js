@@ -8,7 +8,7 @@ const static     = require('koa-static')
 const routers    = require('./routers')
 const path       = require('path')
 const onerror    = require('koa-onerror')
-const {proxy}      = require('koa-nginx')
+const {proxy}    = require('koa-nginx')
 /**
  * app instance
  */
