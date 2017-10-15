@@ -3,7 +3,7 @@ const path     = require('path')
 const oss      = require('./oss.config')    // oss 配置
 const schema   = require('./schema')        // 验证规则
 const proxyUrl = require('./proxyUrl')      // 代理 url
-const static   = path.join( __dirname,'../static')
+const static   = path.join( __dirname,'../static')  // 静态文件夹
 
 module.exports = {
   isProd,                                   // 判断当前环境
@@ -12,9 +12,9 @@ module.exports = {
   secret: 'yqqlmgsycl',                     // jwt secret
   tokenExpires: '7d',                       // token 有效时间 7天
   port: isProd ? '8006' : '3000',           // 端口
-  db: 'mongodb://127.0.0.1:27017/mrsix',    // 数据库
+  db: 'mongodb://127.0.0.1:27017/mrsix',    // 生产数据库
   dbtest: 'mongodb://127.0.0.1:27017/test', // 测试数据库
-  limitDb: 20,                                // 默认每页数据
+  limitDb: 20,                              // 默认每页数据条数
   schema,                                   // 对象验证规则
   oss,                                      // 阿里云 oss
 }

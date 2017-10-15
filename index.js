@@ -3,7 +3,7 @@
  */
 const Koa        = require('koa')
 const bodypaser  = require('koa-bodyparser')
-const cors       = require('koa-cors')
+const cors       = require('@koa/cors')
 const static     = require('koa-static')
 const routers    = require('./routers')
 const path       = require('path')
@@ -17,12 +17,12 @@ const app        = new Koa()
 /**
  * configs
  */
-const config     = require('./config')
+const config    = require('./config')
 
 /**
  * http logger
  */
-const { logHttp } = require('./utils')
+const {logHttp} = require('./utils')
 
 require('./models').connect()
 

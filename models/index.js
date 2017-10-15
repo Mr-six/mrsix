@@ -5,7 +5,6 @@ const v1       = require('./v1')
 
 const dbname = config.isProd ? config.db : config.dbtest
 
-
 module.exports =  {
   connect:  () => {
     mongoose.connect(dbname, {

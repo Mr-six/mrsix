@@ -1,8 +1,5 @@
 const Router  = require('koa-router')
-
 const router  = new Router()
-
-const {authToken} = require('../utils/auth')
 
 const user    = require('./user')
 
@@ -13,6 +10,8 @@ const upload  = require('./upload')
 const debug   = require('./debug')
 
 const oss     = require('./oss')
+
+const {authToken} = require('../utils/auth')
 
 /**
  * user router
@@ -29,8 +28,14 @@ router.use('/article', article.routes(), article.allowedMethods())
  */
 router.use('/upload', authToken, upload.routes(), upload.allowedMethods())
 
+/**
+ * debug router
+ */
 router.use('/debug', debug.routes(), debug.allowedMethods())
 
+/**
+ * ali oss router
+ */
 router.use('/oss', authToken, oss.routes(), oss.allowedMethods())
 
 

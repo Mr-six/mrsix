@@ -27,9 +27,10 @@ async function authToken (ctx, next) {
   if ($.isEmpty(token)) {return $.result(ctx, 'token error')}
   try {  // 解析token
     const decode = await tokenPromise(token)
-    const user = await userModel.find({'_id': decode.user}, {select: '-password'})
+    const user = await userModel.findOne({'_id': decode.user}, {select: '-password'})
     if (user) {  // 解析结果
       ctx.user = user
+      delete ctx.request.body.token  // 删除 token
       return next()
     } else {
       $.result(ctx, 'token error')

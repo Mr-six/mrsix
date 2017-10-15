@@ -5,7 +5,7 @@ const $     = require('../utils')
 
 /**
  * 用户信息验证
- * TODO 待完善全部验证
+ * TODO: 待完善全部验证
  */
 const user  = $.joi.object().keys({
   phone: {

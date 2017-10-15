@@ -17,6 +17,8 @@ const userApi     = new Base({
 userApi.methods.create = async function (ctx, next) {
   let body = ctx.request.body
 
+  $.info(body)
+
   let userDate = {  // 提交信息
     email: {
       addr: body.email,
@@ -33,9 +35,9 @@ userApi.methods.create = async function (ctx, next) {
   // 判断邮箱或者手机是否已经存在
   let exist
   if (value.email.addr) {
-    exist  = await userModel.find({ "email.addr": value.email.addr })
+    exist  = await userModel.findOne({ "email.addr": value.email.addr })
   } else {
-    exist  = await userModel.find({ "phone.number": value.phone.number })
+    exist  = await userModel.findOne({ "phone.number": value.phone.number })
   }
   if (exist) return $.result(ctx, 'account already exist!')
   
@@ -76,9 +78,9 @@ userApi.methods.login = async function (ctx, next) {
   
   let documents
   if (value.email.addr) {  // 邮箱登陆
-    documents = await userModel.find({ "email.addr": value.email.addr, "password": value.password })
+    documents = await userModel.findOne({ "email.addr": value.email.addr, "password": value.password })
   } else {                 // 手机登陆
-    documents = await userModel.find({ "phone.number": value.phone.number, "password": value.password })
+    documents = await userModel.findOne({ "phone.number": value.phone.number, "password": value.password })
   }
   if ($.isEmpty(documents)) return $.result(ctx, 'login failed')
 

@@ -13,11 +13,11 @@
   "author": "mrsix",
   "license": "MIT",
   "dependencies": {
+    "@koa/cors": "2",
     "ali-oss": "^4.10.1",
     "joi": "^10.6.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "koa-cors": "^0.0.16",
     "koa-jwt": "^3.2.2",
     "koa-log4": "^2.2.1",
     "koa-multer": "^1.0.2",

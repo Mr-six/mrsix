@@ -1,5 +1,6 @@
 // api基础类
-const $        = require('../../utils')
+const $ = require('../../utils')
+const {limitDb}  = require('../../config')
 
 module.exports =  class Base {
   constructor(options) {
@@ -11,14 +12,23 @@ module.exports =  class Base {
 
 function addMethods(_this) {
   let methods = {}
-  methods.find = async function (ctx, next) {
+
+  methods.count = async function (ctx) {
+    let query = ctx.query
+    $.result(ctx, await _this.model.findById(ctx.params.id))
+  }
+  methods.findByid = async function (ctx, next) {
     $.result(ctx, await _this.model.findById(ctx.params.id))
   }
 
   methods.all = async function (ctx, next) {
-    let query = {}, search = ctx.query.search
+    let query = {}
+    let q = ctx.query
+    let {search, start, limit, options} = q
+    start = Number(start) || 0
+    limit = Number(limit) || limitDb
     if (!$.isEmpty(search)) query[_this.search] = new RegExp(search)
-    $.result(ctx, await _this.model.all(query, ctx.query.start))
+    $.result(ctx, await _this.model.all(query, start, limit, options))
   }
 
   methods.create = async function (ctx, next) {
