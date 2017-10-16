@@ -17,11 +17,11 @@ function addMethods(_this) {
     let query = ctx.query
     $.result(ctx, await _this.model.findById(ctx.params.id))
   }
-  methods.findByid = async function (ctx, next) {
+  methods.findByid = async function (ctx) {
     $.result(ctx, await _this.model.findById(ctx.params.id))
   }
 
-  methods.all = async function (ctx, next) {
+  methods.all = async function (ctx) {
     let query = {}
     let q = ctx.query
     let {search, start, limit, options} = q
@@ -31,28 +31,24 @@ function addMethods(_this) {
     $.result(ctx, await _this.model.all(query, start, limit, options))
   }
 
-  methods.create = async function (ctx, next) {
+  methods.create = async function (ctx) {
+    let query = ctx.request.body
     $.result(ctx, await _this.model.create(query))
   }
 
-  methods.update = async function (ctx, next) {
-    let exist = await _this.model.find({ "_id": ctx.params.id })
-    if (exist.openid === '123454321') {
-       $.result(ctx, 'this is test account')
-       return
-    }
-    let documents = await _this.model.update({ "_id": ctx.params.id }, req.body)
+  methods.update = async function (ctx) {
+    let documents = await _this.model.update({ "_id": ctx.params.id }, ctx.request.body)
     if (documents === -1) $.result(ctx, 'update failed')
     else $.result(ctx, documents)
   }
 
-  methods.delete = async function (ctx, next) {
+  methods.delete = async function (ctx) {
     let documents = await _this.model.delete({ "_id": ctx.params.id })
     if (documents === -1) $.result(ctx, 'delete failed')
     else $.result(ctx, documents)
   }
 
-  // methods.addSchedule = async function (ctx, next) {
+  // methods.addSchedule = async function (ctx) {
   //   let params = Object.assign({user: ctx.user._id}, ctx.body)
 
   //   if (params.status !== 'schedule') { params.sendAt = Date.now() }

@@ -1942,6 +1942,10 @@ resolve-path@^1.3.3:
     http-errors "~1.5.0"
     path-is-absolute "1.0.1"
 
+restc@^0.2.2:
+  version "0.2.2"
+  resolved "http://registry.npm.taobao.org/restc/download/restc-0.2.2.tgz#cbd3f65fa0bf4347b19e863165053a49a98c3429"
+
 rimraf@2, rimraf@^2.5.1, rimraf@^2.6.1:
   version "2.6.1"
   resolved "http://registry.npm.taobao.org/rimraf/download/rimraf-2.6.1.tgz#c2338ec643df7a1b7fe5c54fa86f57428a55f33d"

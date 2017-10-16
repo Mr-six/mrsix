@@ -8,6 +8,7 @@ const static     = require('koa-static')
 const routers    = require('./routers')
 const path       = require('path')
 const onerror    = require('koa-onerror')
+const restc      = require('restc')
 const {proxy}    = require('koa-nginx')
 /**
  * app instance
@@ -35,6 +36,8 @@ onerror(app)  // 错误处理
 app.use(logHttp)  // 访问日志
 
 app.use(static(config.static))
+
+app.use(restc.koa2())  //
 
 app.use(bodypaser({
   formLimit: '10mb'
