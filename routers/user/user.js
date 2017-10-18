@@ -19,23 +19,15 @@ user.post('/signup', userApi.create)
 user.patch('/resetPassword', authToken, userApi.resetPassword)
 
 /**
- * 查找用户
+ * 查找所有用户
  */
 user.post('/account', authToken, userApi.all)
 
 /**
- * 查找单个用户信息
+ * 单个用户操作
  */
-user.post('/account/:id', authToken, userApi.findById)
-
-/**
- * 更新用户信息
- */
-user.patch('/account/:id', authToken, userApi.update)
-
-/**
- * 删除用户
- */
-user.delete('/account/:id', authToken, userApi.delete)
+user.post('/account/:id',   authToken, userApi.findById)  // 查看
+    .patch('/account/:id',  authToken, userApi.update)    // 更新
+    .delete('/account/:id', authToken, userApi.delete)    // 删除
 
 module.exports = user
