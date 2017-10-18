@@ -33,26 +33,24 @@ module.exports.inviteCode = function () {
  * 生成 API 返回数据
  * @param   res     response
  * @param   data    返回数据 （code===0:数据体, code>0:error message)
+ * @param   status  Status Code
  * @param   code    Error Code (default: 0)
- * @param   status  Status Code (default: 200)
  */
-module.exports.result = function (ctx, data, msg, status) {
+module.exports.result = function (ctx, data, status, code = 0) {
   let redata = {}
   if (typeof data === 'string' ||
     data === 'null' ||
     data === undefined ||
-    data === null || msg) {
+    data === null || code) {
     status = status || 400
     redata = {
       success: false,
-      msg: data,
-      data: {}
+      errMsg: data,
     }
   } else {
     status = status || 200
     redata = {
       success: true,
-      msg: '',
       data: data
     }
   }

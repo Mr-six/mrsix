@@ -1,7 +1,7 @@
 const { articleModel } = require('../../models').v1
 const $ = require('../../utils')
 const Base = require('./base')
-const { schema, limitDb } = require('../../config')
+const { schema } = require('../../config')
 
 let ArticleAPI = new Base({
   model: articleModel,

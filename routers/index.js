@@ -1,15 +1,15 @@
 const Router  = require('koa-router')
 const router  = new Router()
 
-const user    = require('./user')
+const user    = require('./user/user')
 
-const article = require('./article')
+const article = require('./article/article')
 
-const upload  = require('./upload')
+const upload  = require('./upload/upload')
 
-const debug   = require('./debug')
+const debug   = require('./debug/debug')
 
-const oss     = require('./oss')
+const oss     = require('./oss/oss')
 
 const {authToken} = require('../utils/auth')
 

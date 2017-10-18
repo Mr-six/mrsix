@@ -10,5 +10,10 @@ debug.post('/',(ctx) => {
     console.log(body)
     ctx.body = body
 })
+debug.patch('/',(ctx) => {
+    let body = ctx.request.body
+    console.log(body)
+    ctx.body = body
+})
 
 module.exports = debug
