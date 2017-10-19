@@ -76,7 +76,7 @@ async function authToken (ctx, next) {
   if ($.isEmpty(token)) return $.result(ctx, 'token error')
   try {  // 解析token
     const decode = await tokenPromise(token)
-    if (decode && decode.id && decode.permission) {  // 解析结果
+    if (decode && decode.id) {  // 解析结果
       let user = await userModel.findById(decode.id)
       if ($.isEmpty(user)) return $.result(ctx, 'token error')
       // 权限检查

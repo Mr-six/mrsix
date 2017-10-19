@@ -14,7 +14,6 @@ const userApi     = new Base({
  * 创建用户
  * 1. 验证对象结构
  * 2. 判重
- * 3. TODO: 密码加密处理
  * 4. 生成token
  */
 userApi.methods.create = async function (ctx) {
@@ -36,22 +35,19 @@ userApi.methods.create = async function (ctx) {
   }
   if (exist) return $.result(ctx, '帐号已存在!')
   
-  let user    = await userModel.create(value)
-
-  // 生成token
-  const token = auth.createToken({id: user._id, permission: user.permission})
-  user        = await userModel.update({_id: user._id}, { token: token })
+  value.password = await $.encrypt(value.password)   // 密码加密储存
+  let user       = await userModel.create(value)     // 用户储存
+  const token    = auth.createToken({id: user._id})  // 生成token
+  user           = await userModel.update({_id: user._id}, { token: token })
   $.result(ctx, user)
 }
 
-// 登录验证 email和密码
-// TODO: 密码未做加密处理
 
 /**
  * 用户登陆
  * 1. 对象验证
  * 2. 验证存在性
- * 3. 
+ * 3. token 检查
  */
 userApi.methods.login = async function (ctx) {
   let body = ctx.request.body
@@ -71,11 +67,12 @@ userApi.methods.login = async function (ctx) {
   } else {
     return $.result(ctx, '请输入正确的帐号')
   }
-  if ($.isEmpty(user)) {
-    return $.result(ctx, '账户不存在')
-  } else if (value.password !== user.password) {
-    return $.result(ctx, '账户或密码错误')
-  }
+
+  if ($.isEmpty(user)) return $.result(ctx, '账户不存在')
+  
+  let isUserPss = await $.decrypt(value.password, user.password)  // 验证秘密正确性
+  if (!isUserPss) return $.result(ctx, '账户或密码错误')
+ 
 
   // token是否过期
   let {token} = user
@@ -83,7 +80,7 @@ userApi.methods.login = async function (ctx) {
     const decode = await tokenPromise(token)
   } catch (e) {  // 生成新token
     $.info('get new token')
-    token = auth.createToken({id: user._id, permission: user.permission})
+    token = auth.createToken({id: user._id})
     user = await userModel.findOneAndUpdate({_id: user._id}, { token: token })
   }
   if ($.isEmpty(user)) $.result(ctx, '登陆失败, 未知原因', 507)
@@ -105,7 +102,8 @@ userApi.methods.resetPassword = async function (ctx) {
   const { error, value } = $.joi.validate(body, schema.user)
   if (value.password === value.newpassword) return $.result(ctx, 'same password!')
 
-  let user = await userModel.update({ _id: ctx.user._id}, {password: value.newpassword})
+  let password = await $.encrypt(value.password)
+  let user = await userModel.update({ _id: ctx.user._id}, {password: password})
   if (user === -1) $.result(ctx, 'reset failed')
   else $.result(ctx, user)
 }

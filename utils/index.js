@@ -1,7 +1,8 @@
-const log4js = require('koa-log4')
-const moment = require('moment')
-const crypto = require('crypto')
-const joi    = require('joi')
+const log4js  = require('koa-log4')
+const moment  = require('moment')
+const crypto  = require('crypto')
+const joi     = require('joi')
+const bcrypt  = require('bcrypt')
 const logConf = require('../config/logConf')
 
 log4js.configure(logConf)
@@ -13,20 +14,42 @@ module.exports.logHttp = log4js.koaLogger(log4js.getLogger('http'), {
   level: 'auto'
 })
 
+/**
+ * md5
+ */
 module.exports.md5 = function (str) {
   return crypto.createHash('md5').update(str.toString()).digest('hex')
 }
 
+/**
+ * base64
+ */
 module.exports.base64 = function (str) {
   return Buffer(str.toString()).toString('base64')
 }
 
+/**
+ * trim
+ */
 module.exports.trimStr = function (str) {
   return str.replace(/(^\s*)|(\s*$)/g, "")
 }
 
-module.exports.inviteCode = function () {
-  return Math.random().toString(36).substring(2) // ?
+/**
+ * 密码加密
+ * passwd 未加密密码
+ */
+module.exports.encrypt = function (passwd) {
+  return bcrypt.hash(passwd, 10)
+}
+
+/**
+ * 密码解密
+ * passwd 未加密密码
+ * hash 加密后的密码
+ */
+module.exports.decrypt = function (passwd, hash) {
+  return bcrypt.compare(passwd, hash)
 }
 
 /**
