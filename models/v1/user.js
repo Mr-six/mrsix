@@ -12,10 +12,10 @@ const User = new Base('User', {
   phone:        String,  // 电话
   password:     String,  // 密码
   openid:       String,  // 微信openid
-  permission:   { type: Number, default: 1 },  // 权限
-  status:       { type: Number, default: -1 },  // 帐号状态
-  headimgurl:   { type: String, default: 'http://cdn.mrsix.top/img/default.png' },  // 头像
-  wallet:       { type: Number, default: 0 },  // 钱包金额 单位 分
+  permission:   {type: Array, default: ['user']},  // 权限
+  status:       {type: Number, default: -1},  // 帐号状态
+  headimgurl:   {type: String, default: 'http://cdn.mrsix.top/img/default.png'},  // 头像
+  wallet:       {type: Number, default: 0},  // 钱包金额 单位 分
   zmz: {  // 字幕组关联帐号
     id:      String,
     passwd:  String,

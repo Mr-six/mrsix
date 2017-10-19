@@ -1,7 +1,42 @@
 const {userModel} = require('../models').v1
 const $           = require('./index')
 const jwt         = require('jsonwebtoken')
+const yaml        = require('js-yaml')
+const fs          = require('fs')
+const path        = require('path')
 const config      = require('../config')
+
+let   yml         = {}
+let   yamlFile    = path.join(__dirname, 'permission.yml')
+let   pmCache     = {}
+
+try {
+  yml = yaml.safeLoad(fs.readFileSync(yamlFile , 'utf8'))
+} catch (e) {
+  $.error(e)
+}
+
+/**
+ * 权限验证
+ * @param {Object} ctx koa ctx
+ * @param {Array} permission 用户权限
+ */
+function permissionAllow (ctx, permission) {
+  let url = `${ctx.path}#${ctx.method}`
+  let pmStr = permission.toString()
+  let userPM = {}  // 当前用户权限列表
+  if ($.isEmpty(pmCache[pmStr])) {  // 权限查找
+    permission.forEach(key => {
+      if (yml[key]) {
+        userPM = Object.assign(userPM, yml[key])
+      }
+    })
+    pmStr[pmStr] = userPM  // 缓存权限
+  } else {
+    userPM = pmStr[pmStr]
+  }
+  return userPM[url] === 'allow'
+}
 
 /**
  * 解析token信息
@@ -41,9 +76,11 @@ async function authToken (ctx, next) {
   if ($.isEmpty(token)) return $.result(ctx, 'token error')
   try {  // 解析token
     const decode = await tokenPromise(token)
-    if (decode) {  // 解析结果
+    if (decode && decode.id && decode.permission) {  // 解析结果
       let user = await userModel.findById(decode.id)
       if ($.isEmpty(user)) return $.result(ctx, 'token error')
+      // 权限检查
+      if (!permissionAllow(ctx, user.permission)) return $.result(ctx, 'Permission denied', 403)
       ctx.user = decode
       if (ctx.request.body.token) delete ctx.request.body.token  // 删除 token
       return next()
@@ -51,6 +88,7 @@ async function authToken (ctx, next) {
       $.result(ctx, 'token error')
     }
   } catch (e) {
+    $.debug(e)
     $.result(ctx, 'token error')
   }
 }

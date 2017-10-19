@@ -88,8 +88,8 @@ userApi.methods.login = async function (ctx) {
   }
   if ($.isEmpty(user)) $.result(ctx, '登陆失败, 未知原因', 507)
   else {
-    let {nickname, headimgurl, token} = user
-    $.result(ctx, {nickname, headimgurl, token})
+    let {_id, nickname, headimgurl, token} = user
+    $.result(ctx, {_id, nickname, headimgurl, token})
   }
 }
 

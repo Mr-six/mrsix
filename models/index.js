@@ -5,12 +5,13 @@ const v1       = require('./v1')
 
 const dbname = config.isProd ? config.db : config.dbtest
 
+mongoose.Promise = global.Promise
+
 module.exports =  {
   connect:  () => {
     mongoose.connect(dbname, {
       useMongoClient: true,
-      poolSize: 2,
-      promiseLibrary : global.Promise
+      poolSize: 2
     }, (err) => {
       console.log(dbname)
       $.info(dbname + ' success connect')

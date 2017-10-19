@@ -16,6 +16,7 @@
 {
     "success": true,
     "data": {
+        "_id": "59e84714670a363dceae0b6a",
         "nickname": "管理员1",
         "headimgurl": "http://cdn.mrsix.top/img/default.png",
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNTllNWUwMWQzNDlmMDg0MTFjYjllYmZhIiwicGVybWlzc2lvbiI6MSwiaWF0IjoxNTA4MjM3MzQxLCJleHAiOjE1MDg4NDIxNDF9.BR7EJwYd1XbOgQPBvg62C6qHhDLbn6zBJP1izvqy0yk"
@@ -42,7 +43,7 @@
     }
 }
 ```
-#### patch /user/resetPassword 更改用户密码
+#### put /user/resetPassword 更改用户密码
 发送参数：（email或手机号）
 - token token值
 - password 旧密码

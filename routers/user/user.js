@@ -16,7 +16,7 @@ user.post('/signup', userApi.create)
 /**
  * 修改密码
  */
-user.patch('/resetPassword', authToken, userApi.resetPassword)
+user.put('/resetPassword', authToken, userApi.resetPassword)
 
 /**
  * 查找所有用户
