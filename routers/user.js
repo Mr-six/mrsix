@@ -1,6 +1,6 @@
 const Router      = require('koa-router')
-const {authToken} = require('../../utils/auth')
-const {userApi}   = require('../../api').v1
+const {authToken} = require('../utils/auth')
+const {userApi}   = require('../api').v1
 const user        = new Router()
 
 /**

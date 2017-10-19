@@ -35,6 +35,8 @@ admin: &admin
 
   # upload
   /oss#GET: allow
+  /qiniu#GET: allow
+  /upload#post: allow
 
   <<: *base
   <<: *user

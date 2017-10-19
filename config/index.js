@@ -15,6 +15,7 @@ module.exports = {
   port: isProd  ? '8006' : '3000',                    // 端口
   db:           'mongodb://127.0.0.1:27017/mrsix',    // 生产数据库
   dbtest:       'mongodb://127.0.0.1:27017/test',     // 测试数据库
-  oss:          custom.oss,                           // 阿里云 oss
+  ossCof:       custom.ossCof,                        // 阿里云 oss
+  qiniuCof:     custom.qiniuCof,                      // 七牛上传
   secret:       custom.secret,                        // jwt secret
 }

@@ -1,42 +1,14 @@
-const Router  = require('koa-router')
-const router  = new Router()
+const Router        = require('koa-router')
+const router        = new Router()
+const user          = require('./user')
+const article       = require('./article')
+const {uploadApi}   = require('../api').v1
+const {authToken}   = require('../utils/auth')
 
-const user    = require('./user/user')
-
-const article = require('./article/article')
-
-const upload  = require('./upload/upload')
-
-const debug   = require('./debug/debug')
-
-const oss     = require('./oss/oss')
-
-const {authToken} = require('../utils/auth')
-
-/**
- * user router
- */
-router.use('/user', user.routes(), user.allowedMethods())
-
-/**
- * article router
- */
-router.use('/article', article.routes(), article.allowedMethods())
-
-/**
- * upload router
- */
-router.use('/upload', authToken, upload.routes(), upload.allowedMethods())
-
-/**
- * debug router
- */
-router.use('/debug', debug.routes(), debug.allowedMethods())
-
-/**
- * ali oss router
- */
-router.use('/oss', authToken, oss.routes(), oss.allowedMethods())
-
+router.use('/user',         user.routes(),    user.allowedMethods())     // user router
+router.use('/article',      article.routes(), article.allowedMethods())  // article router
+router.get('/oss',          authToken,        uploadApi.getAcessOss)     // get oss token
+router.get('/qiniu',        authToken,        uploadApi.getQiniu)        // get qiniu token
+router.post('/upload',      authToken,        uploadApi.localUpload.single('file'), uploadApi.localUpload.file)     // localUpload
 
 module.exports = router
