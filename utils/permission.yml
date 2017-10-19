@@ -11,7 +11,7 @@ base: &base
   /user/logi#POST: allow
   /user/signup#POST: allow
   /user/resetPassword#PUT: allow
-  /user/accout/:id#POT: allow
+  /user/accout/:id#GET: allow
   /user/accout/:id#PATCH: allow
 
 
@@ -30,8 +30,11 @@ runner: &runner
 
 admin: &admin
   # user
-  /user/account#POST: allow
+  /user/account#GET: allow
   /user/accout/:id#DELETE: allow
+
+  # upload
+  /oss#GET: allow
 
   <<: *base
   <<: *user

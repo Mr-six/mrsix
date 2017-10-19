@@ -90,9 +90,9 @@
 }
 ```
 
-#### post /user/account/:id 查看用户信息
+#### get /user/account/:id 查看用户信息
 发送参数：
-- token token值
+- token token值 (header)
 *ps非管理员或非本帐号之返回基本信息*
 
 返回结果：
@@ -100,9 +100,9 @@
 略
 ```
 
-#### post /user/account 列出用户(管理员权限)
+#### get /user/account 列出用户(管理员权限)
 发送参数：
-- token token值
+- token token值 (header)
 - search 搜索nickname
 - page 数据起始页
 - limit 每页数据数量

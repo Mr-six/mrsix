@@ -6,8 +6,6 @@ const {oss} = require('../../config')
 const $     = require('../../utils')
 const {STS} = require('ali-oss').Wrapper
 
-
-
 const client = new STS ({
   accessKeyId: oss.accessKeyId,
   accessKeySecret: oss.accessKeySecret,
@@ -16,8 +14,7 @@ const client = new STS ({
 async function getAcessOss (ctx) {
   try {
     let res = await client.assumeRole (oss.role)
-    let { credentials } = res
-
+    let {credentials} = res
     Object.assign (credentials, {  // 填充
       region: oss.region,
       bucket: oss.bucket

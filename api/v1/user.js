@@ -139,19 +139,6 @@ userApi.methods.update = async function (ctx) {
 }
 
 /**
- * 查找所有用户信息
- */
-userApi.methods.all = async function (ctx) {
-  let query = {}
-  let b = ctx.request.body 
-  let {search, start, limit, options} = b
-  if (!$.isEmpty(search)) query[_this.search] = new RegExp(search)
-  let res = await userModel.all(query, start, limit, options)
-  if (res === -1) $.result(ctx, 'error id')
-  else $.result(ctx, res)
-}
-
-/**
  * 查看单个用户信息
  */
 userApi.methods.findById = async function (ctx) {

@@ -72,7 +72,7 @@ function createToken (json) {
  * @param {koa} next 
  */
 async function authToken (ctx, next) {
-  const token = ctx.request.body.token || null
+  const token = ctx.request.body.token || ctx.headers.token || null
   if ($.isEmpty(token)) return $.result(ctx, 'token error')
   try {  // 解析token
     const decode = await tokenPromise(token)
