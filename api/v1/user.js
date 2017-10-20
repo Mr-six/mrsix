@@ -69,6 +69,8 @@ userApi.methods.login = async function (ctx) {
   }
 
   if ($.isEmpty(user)) return $.result(ctx, '账户不存在')
+
+  // if (user.)
   
   let isUserPss = await $.decrypt(value.password, user.password)  // 验证秘密正确性
   if (!isUserPss) return $.result(ctx, '账户或密码错误')

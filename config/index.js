@@ -16,6 +16,8 @@ module.exports = {
   db:           'mongodb://127.0.0.1:27017/mrsix',    // 生产数据库
   dbtest:       'mongodb://127.0.0.1:27017/test',     // 测试数据库
   ossCof:       custom.ossCof,                        // 阿里云 oss
+  smsCof:       custom.smsCof,                        // 阿里云 sms
   qiniuCof:     custom.qiniuCof,                      // 七牛上传
   secret:       custom.secret,                        // jwt secret
+  email:        custom.email,                         // 邮件服务    
 }

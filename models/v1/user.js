@@ -13,7 +13,7 @@ const User = new Base('User', {
   password:     String,  // 密码
   openid:       String,  // 微信openid
   permission:   {type: Array, default: ['user']},  // 权限
-  status:       {type: Number, default: -1},  // 帐号状态
+  status:       {type: Number, default: -1},  // 帐号状态 默认未激活
   headimgurl:   {type: String, default: 'http://cdn.mrsix.top/img/default.png'},  // 头像
   wallet:       {type: Number, default: 0},  // 钱包金额 单位 分
   zmz: {  // 字幕组关联帐号

@@ -15,27 +15,6 @@ module.exports.logHttp = log4js.koaLogger(log4js.getLogger('http'), {
 })
 
 /**
- * md5
- */
-module.exports.md5 = function (str) {
-  return crypto.createHash('md5').update(str.toString()).digest('hex')
-}
-
-/**
- * base64
- */
-module.exports.base64 = function (str) {
-  return Buffer(str.toString()).toString('base64')
-}
-
-/**
- * trim
- */
-module.exports.trimStr = function (str) {
-  return str.replace(/(^\s*)|(\s*$)/g, "")
-}
-
-/**
  * 密码加密
  * passwd 未加密密码
  */
@@ -50,6 +29,44 @@ module.exports.encrypt = function (passwd) {
  */
 module.exports.decrypt = function (passwd, hash) {
   return bcrypt.compare(passwd, hash)
+}
+
+/**
+ * 生成时间戳
+ */
+module.exports.createTimestamp = function () {
+  return parseInt(new Date().getTime() / 1000) + ''
+}
+
+/**
+* 生成随机字符串
+*/
+module.exports.createNonceStr = function () {
+  return Math.random().toString(36).substr(2, 15)
+}
+/**
+ * md5
+ */
+module.exports.md5 = function (str) {
+  return crypto.createHash('md5').update(str.toString()).digest('hex')
+}
+// sha1加密
+module.exports.sha1 = function (str) {
+  return crypto.createHash("sha1").update(str.toString()).digest("hex")
+}
+
+/**
+ * base64
+ */
+module.exports.base64 = function (str) {
+  return Buffer(str.toString()).toString('base64')
+}
+
+/**
+ * trim
+ */
+module.exports.trimStr = function (str) {
+  return str.replace(/(^\s*)|(\s*$)/g, "")
 }
 
 /**
