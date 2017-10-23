@@ -31,6 +31,7 @@
 - password 密码
 - nickname 用户名(可选)
 - openid 微信openid(可选)
+- verifyCode 手机验证码(使用手机注册时必填)
 
 返回数据：
 ```
@@ -98,6 +99,55 @@
 返回结果：
 ```
 略
+```
+
+#### get /activate/:id 用户邮箱激活
+发送参数：
+- id 用户id
+- code 验证码
+
+返回结果：
+```
+{
+    "success": true,
+    "msg": "",
+    "data": {
+        "n": 1,
+        "nModified": 1,
+        "ok": 1
+    }
+}
+```
+
+#### post /verifyCodeTel 发送手机验证码
+发送参数：（email或手机号）
+- phone 手机号
+
+返回结果：
+```
+{
+    "success": true,
+    "data": {
+        "Message": "OK",
+        "RequestId": "30213F60-6DBB-4D90-9FA7-0422D05C7E3B",
+        "BizId": "238808308741606362^0",
+        "Code": "OK"
+    }
+}
+```
+
+#### post /verifyCodeEmail 发送邮箱激活验证
+发送参数：（email或手机号）
+- email 邮箱地址
+
+返回结果：
+```
+{
+    "success": true,
+    "data": {
+        "data": "发送成功"
+    }
+}
 ```
 
 #### get /user/account 列出用户(管理员权限)

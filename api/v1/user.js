@@ -1,8 +1,9 @@
-const Base           = require('./base')
-const {userModel}    = require('../../models').v1
 const $              = require('../../utils')
+const Base           = require('./base')
+const tool           = require('../tool')
 const auth           = require('../../utils/auth')
 const {schema}       = require('../../config')
+const {userModel}    = require('../../models').v1
 const {tokenPromise, createToken} = require('../../utils/auth')
 
 const userApi     = new Base({
@@ -28,17 +29,28 @@ userApi.methods.create = async function (ctx) {
   let exist
   if (value.email) {  // 邮箱判断
     exist  = await userModel.findOne({"email": value.email})
-  } else if (value.phone) {
+  } else if (value.phone) {  // 手机
     exist  = await userModel.findOne({"phone": value.phone})
+    if (!value.verifyCode) return $.result(ctx, '请输入正确的验证码')
+    let verifyCode = await tool.veryfyCode.checkCode(value.phone, value.verifyCode)
+    $.info(verifyCode)
+    if (!verifyCode) return $.result(ctx, '验证码不正确')
+    value.status = 1  // 手机默认激活
   } else {
     return $.result(ctx, '请输入正确的帐号')
   }
   if (exist) return $.result(ctx, '帐号已存在!')
+
+
   
   value.password = await $.encrypt(value.password)   // 密码加密储存
   let user       = await userModel.create(value)     // 用户储存
   const token    = auth.createToken({id: user._id})  // 生成token
+  if (value.email) {  // 发送激活邮件
+    let res = await tool.veryfyCode.sendEmailCode(value.email, user._id, 7200)
+  }
   user           = await userModel.update({_id: user._id}, { token: token })
+
   $.result(ctx, user)
 }
 
@@ -70,7 +82,7 @@ userApi.methods.login = async function (ctx) {
 
   if ($.isEmpty(user)) return $.result(ctx, '账户不存在')
 
-  // if (user.)
+  if (user.status !== 1) return $.result(ctx, '账户未激活', 403)
   
   let isUserPss = await $.decrypt(value.password, user.password)  // 验证秘密正确性
   if (!isUserPss) return $.result(ctx, '账户或密码错误')
@@ -155,6 +167,59 @@ userApi.methods.findById = async function (ctx) {
   let res = await userModel.findById(id, options)
   if (res === -1) $.result(ctx, 'error id')
   else $.result(ctx, res)
+}
+
+/**
+ * 验证手机码发送
+ */
+userApi.methods.sendTelCode = async function (ctx) {
+  let phone = ctx.request.body.phone
+  let reg = /^(0|86|17951)?(13[0-9]|14[579]|15[0-3,5-9]|17[0135678]|18[0-9])[0-9]{8}$/
+  if(!reg.test(phone)) return $.result(ctx, '请输入正确的手机号码')
+  let exist = await userModel.findOne({"phone": phone})
+  if (exist) return $.result(ctx, '手机已注册')
+  try {
+    let res = await tool.veryfyCode.sendTelCode(phone, 300)
+    if (res) $.result(ctx, res)
+    else $.result(ctx, '发送失败')
+  } catch (e) {
+    $.error(e)
+    $.result(ctx, '发送失败')
+  }
+}
+
+/**
+ * 发送邮箱账户激活
+ */
+userApi.methods.sendEmailCode = async function (ctx) {
+  let email = ctx.request.body.email
+  if (!email) return $.result(ctx, '请输入正确的邮箱')
+  try {
+    let user = await userModel.findOne({"email": email})
+    if ($.isEmpty(user)) return $.result(ctx, '此邮箱暂未注册')
+    let res = await tool.veryfyCode.sendEmailCode(email, user._id, 7200)
+    if (res.success) $.result(ctx, {data: '发送成功'})
+    else $.result(ctx, '发送失败, 请稍候重试')
+  } catch (e) {
+    $.error(e)
+  }
+}
+
+/**
+ * 邮箱账户激活
+ */
+userApi.methods.checkCode = async function (ctx) {
+  let id = ctx.params.id   // 用户id
+  let val = ctx.query.code  // 验证码
+  try {
+    let code = await tool.veryfyCode.checkCode(id, val)
+    if (code) {
+      let user = await userModel.update({_id: id}, { status: 1 })
+      $.result(ctx, user)
+    } else return $.result(ctx, '激活失败, 链接已过期或者帐号以及激活过了')
+  } catch (e) {
+    $.error(e)
+  }
 }
 
 module.exports = userApi.methods

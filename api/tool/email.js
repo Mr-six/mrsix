@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer')
-const $          = require('../../utils')
-const {email}    = require('../../config')
+const nodemailer       = require('nodemailer')
+const $                = require('../../utils')
+const {email, baseUrl} = require('../../config')
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport(email.smtp)
@@ -30,4 +30,29 @@ async function sendEmail (option) {
   } 
 }
 
-module.exports = sendEmail
+/**
+ * 
+ * @param {String} to 发送对象
+ * @param {String} id 用户id
+ * @param {String} code 激活码
+ */
+async function sendActivationCode (to, id, code, expire) {
+  let sendOp = Object.assign({}, defaultOptions, {
+    to: to,
+    subject: '请激活您的账号',
+    html: `<b>请点击以下链接，激活帐号:</br><a>${baseUrl}/user/activate/${id}?code=${code}</a> </br>${expire/60/60}小时内有效</b>` // html body
+  })
+  try {
+    let res = await transporter.sendMail(sendOp)
+    if (!res.envelope) return {success: false, errMsg: res}
+    else return {success: true, data: res.envelope}
+  } catch (e) {
+    $.error(e)
+    return {success: false, errMsg: e}
+  }
+}
+
+module.exports = {
+  sendEmail,
+  sendActivationCode,
+}

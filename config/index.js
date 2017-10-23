@@ -19,5 +19,6 @@ module.exports = {
   smsCof:       custom.smsCof,                        // 阿里云 sms
   qiniuCof:     custom.qiniuCof,                      // 七牛上传
   secret:       custom.secret,                        // jwt secret
-  email:        custom.email,                         // 邮件服务    
+  email:        custom.email,                         // 邮件服务
+  baseUrl:      custom.baseUrl,                       // 网站地址
 }

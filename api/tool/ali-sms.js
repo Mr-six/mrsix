@@ -12,7 +12,7 @@ let smsClient = new SMSClient(smsCof.key)
  * @param {String} tel 目标手机号码
  * @param {Number} code 发送的验证码
  */
-function sendMsg (tel, code) {
+function sendVerify (tel, code) {
   let opt = Object.assign({
     PhoneNumbers: tel,
     TemplateParam: `{"code":"${code}"}`
@@ -21,5 +21,7 @@ function sendMsg (tel, code) {
   return smsClient.sendSMS(opt)
 }
 
-module.exports = sendMsg
+module.exports = {
+  sendVerify,
+}
 

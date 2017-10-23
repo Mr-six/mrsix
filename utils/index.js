@@ -44,6 +44,14 @@ module.exports.createTimestamp = function () {
 module.exports.createNonceStr = function () {
   return Math.random().toString(36).substr(2, 15)
 }
+
+/**
+* 生成随机数字验证码
+*/
+module.exports.createVerifyCode = function (len = 4) {
+  return Math.random().toString().substr(2, len)
+}
+
 /**
  * md5
  */
