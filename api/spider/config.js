@@ -2,7 +2,7 @@
 const zmz_url = 'http://www.zimuzu.tv'
 
 module.exports = {
-  header : {
+  headers : {
     'Accept': 'text/html,application/xhtml+xml,application/xml,*/*',
     'Accept-Encoding': 'gzip, deflate, sdch',
     'Cache-Control': 'max-age=0',
